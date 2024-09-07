@@ -1,0 +1,3 @@
+[submodule "Yolov5-Real-Time-Object-Detection"]
+	path = Yolov5-Real-Time-Object-Detection
+	url = git@github.com:ngzhili/Yolov5-Real-Time-Object-Detection.git
