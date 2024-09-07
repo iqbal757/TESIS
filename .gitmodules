@@ -1,6 +1,6 @@
 [submodule "Yolov5-Real-Time-Object-Detection"]
 	path = Yolov5-Real-Time-Object-Detection
-	url = git@github.com:ngzhili/Yolov5-Real-Time-Object-Detection.git
+	url = https://github.com/ngzhili/Yolov5-Real-Time-Object-Detection.git
 [submodule "yolov5-deepsort"]
 	path = yolov5-deepsort
-	url = git@github.com:Ayushman-Choudhuri/yolov5-deepsort.git
+	url = https://github.com/Ayushman-Choudhuri/yolov5-deepsort.git
