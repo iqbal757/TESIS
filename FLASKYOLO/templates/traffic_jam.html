@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>DETEKSI KEMACETAN DAN KECELAKAAN DENGAN YOLO v8</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="../static/bootstrap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="../static/bootstrap/css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body class="">
+
+  <div class="container">
+
+     <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top">
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+
+
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 middle"><b>INSTITUT TEKNOLOGI BANDUNG&nbsp;</b></span>
+                <img src="../static/image/logo.png" width="90" height="90" style="margin-top: 25px">
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  <!-- <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> -->
+                  Oleh : IQBAL - INSTITUT TEKNOLOGI BANDUNG, 2023
+                </a>
+              </div>
+            </li>
+
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+    <!-- Outer Row -->
+<br>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/detected">Detected Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/accidents">Accidents Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/traffic_jam">Traffic Jam Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/speed">Speed Avg. Chart</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+                      <!-- Bar Chart -->
+                  <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                      <h6 class="m-0 font-weight-bold text-primary">Accidents Count Bar Chart</h6>
+                    </div>
+                    <div class="card-body">
+                      <div>
+                        <canvas id="myPieChart" style="width:400px; height:500px"></canvas>
+                      </div>
+                      <hr>
+                    </div>
+                  </div>
+
+                  <hr>
+                  <div align="center" class="text-gray-900" style="font-size:12px">Copyright &copy; 2023, Flask Python by Iqbal</div>
+                  <br>
+                  </div>
+
+
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="../static/bootstrap/vendor/jquery/jquery.min.js"></script>
+  <script src="../static/bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="../static/bootstrap/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="../static/bootstrap/js/sb-admin-2.min.js"></script>
+
+    <!-- bootbox code -->
+  <script src="../static/bootstrap/js/bootbox.min.js"></script>
+  <script src="../static/bootstrap/js/bootbox.locales.min.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="../static/bootstrap/vendor/chart.js/Chart.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <!--<script src="../static/bootstrap/js/demo/chart-area-demo.js"></script>
+  <script src="../static/bootstrap/js/demo/chart-pie-demo.js"></script>
+  <script src="../static/bootstrap/js/chart-bar.js"></script>-->
+
+
+  <script>
+    function showProgress(){
+        bootbox.dialog({
+        message: '<div class="text-center">Sedang Proses &nbsp;...&nbsp;Mohon Tunggu&nbsp;&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i></div>',
+        closeButton: false,
+        onEscape: false,
+        centerVertical: true
+        })
+    }
+  </script>
+
+<script>
+ // Set new default font family and font color to mimic Bootstrap's default styling
+Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#858796';
+
+// Pie Chart Example
+var ctx = document.getElementById("myPieChart");
+var myPieChart = new Chart(ctx, {
+  type: 'doughnut',
+  data: {
+    labels: {{ label_traffic_jam | safe }},
+    datasets: [{
+      data: {{ traffic_jam }},
+      backgroundColor: ['#df4e4e', '#1cc88a', '#36b9cc'],
+      hoverBackgroundColor: ['#993333', '#17a673', '#2c9faf'],
+      hoverBorderColor: "rgba(234, 236, 244, 1)",
+    }],
+  },
+  options: {
+    maintainAspectRatio: false,
+    tooltips: {
+      backgroundColor: "rgb(255,255,255)",
+      bodyFontColor: "#858796",
+      borderColor: '#dddfeb',
+      borderWidth: 1,
+      xPadding: 15,
+      yPadding: 15,
+      displayColors: false,
+      caretPadding: 10,
+    },
+    legend: {
+      display: true
+    },
+    cutoutPercentage: 80,
+  },
+});
+</script>
+
+</body>
+
+</html>
